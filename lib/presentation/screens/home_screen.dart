@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       Get.put(BottomNavController());
 
   final List<Widget> pages = [
-    const HomeTab(),
+    HomeTab(),
     TaskScreen(),
     const ProfileScreen(),
   ];

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/presentation/controllers/task_controller.dart';
 import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+  HomeTab({super.key});
+
+  final TaskController controller = Get.find<TaskController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,24 +79,25 @@ class HomeTab extends StatelessWidget {
 
             Row(
               children: [
-
                 Expanded(
-                  child: _buildCard(
-                    title: "Today's Tasks",
-                    count: "0",
-                    icon: Icons.today,
-                    color: Colors.orange,
+                  child: Obx(
+                    () => _buildCard(
+                      title: "Today's Tasks",
+                      count: controller.todayTasks.toString(),
+                      icon: Icons.today,
+                      color: Colors.orange,
+                    ),
                   ),
                 ),
-
                 const SizedBox(width: 15),
-
                 Expanded(
-                  child: _buildCard(
-                    title: "Completed",
-                    count: "0",
-                    icon: Icons.check_circle,
-                    color: Colors.green,
+                  child: Obx(
+                    () => _buildCard(
+                      title: "Completed",
+                      count: controller.completedTasks.toString(),
+                      icon: Icons.check_circle,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
               ],
@@ -102,24 +107,25 @@ class HomeTab extends StatelessWidget {
 
             Row(
               children: [
-
                 Expanded(
-                  child: _buildCard(
-                    title: "Pending",
-                    count: "0",
-                    icon: Icons.pending_actions,
-                    color: Colors.red,
+                  child: Obx(
+                    () => _buildCard(
+                      title: "Pending",
+                      count: controller.pendingTasks.toString(),
+                      icon: Icons.pending_actions,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-
                 const SizedBox(width: 15),
-
                 Expanded(
-                  child: _buildCard(
-                    title: "Future",
-                    count: "0",
-                    icon: Icons.calendar_month,
-                    color: Colors.blue,
+                  child: Obx(
+                    () => _buildCard(
+                      title: "Future",
+                      count: controller.futureTasks.toString(),
+                      icon: Icons.calendar_month,
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
               ],
@@ -149,7 +155,7 @@ class HomeTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 8,
             offset: const Offset(2, 4),
           )
@@ -160,7 +166,7 @@ class HomeTab extends StatelessWidget {
 
           CircleAvatar(
             radius: 25,
-            backgroundColor: color.withOpacity(.15),
+            backgroundColor: color.withValues(alpha: 0.15),
             child: Icon(
               icon,
               color: color,

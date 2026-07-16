@@ -84,4 +84,21 @@ class TaskController extends GetxController {
 
     filteredTasks.assignAll(filtered.toList());
   }
+
+  int get totalTasks => tasks.length;
+
+  int get completedTasks =>
+      tasks.where((task) => task.status == "Completed").length;
+
+  int get pendingTasks =>
+      tasks.where((task) => task.status == "Pending").length;
+
+  int get todayTasks =>
+      tasks.where((task) => task.category == "Today").length;
+
+  int get yesterdayTasks =>
+      tasks.where((task) => task.category == "Yesterday").length;
+
+  int get futureTasks =>
+      tasks.where((task) => task.category == "Future").length;
 }
