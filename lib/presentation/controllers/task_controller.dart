@@ -8,6 +8,8 @@ class TaskController extends GetxController {
 
   RxList<TaskModel> tasks = <TaskModel>[].obs;
 
+  RxList<TaskModel> filteredTasks = <TaskModel>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -16,6 +18,8 @@ class TaskController extends GetxController {
 
   void loadTasks() {
     tasks.assignAll(repository.getTasks());
+
+    filteredTasks.assignAll(tasks);
   }
 
   Future<void> addTask(TaskModel task) async {
@@ -33,7 +37,18 @@ class TaskController extends GetxController {
     loadTasks();
   }
 
-  TaskModel getTask(int index) {
-    return tasks[index];
+  void searchTask(String keyword) {
+    if (keyword.trim().isEmpty) {
+      filteredTasks.assignAll(tasks);
+      return;
+    }
+
+    filteredTasks.assignAll(
+      tasks.where(
+        (task) => task.title
+            .toLowerCase()
+            .contains(keyword.toLowerCase()),
+      ),
+    );
   }
 }

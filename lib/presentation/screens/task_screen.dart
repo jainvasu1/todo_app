@@ -46,18 +46,20 @@ class TaskScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search task...",
-                prefixIcon: const Icon(Icons.search),
-                filled: true,
-                fillColor: Theme.of(context).cardColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
+           TextField(
+  onChanged: controller.searchTask,
+
+  decoration: InputDecoration(
+    hintText: "Search task...",
+    prefixIcon: const Icon(Icons.search),
+    filled: true,
+    fillColor: Theme.of(context).cardColor,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(14),
+      borderSide: BorderSide.none,
+    ),
+  ),
+),
 
             const SizedBox(height: 20),
 
@@ -79,7 +81,7 @@ class TaskScreen extends StatelessWidget {
 
             Expanded(
               child: Obx(() {
-                if (controller.tasks.isEmpty) {
+                if (controller.filteredTasks.isEmpty) {
                   return const Center(
                     child: Text(
                       "No Tasks Yet",
@@ -92,9 +94,9 @@ class TaskScreen extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  itemCount: controller.tasks.length,
+                  itemCount: controller.filteredTasks.length,
                   itemBuilder: (context, index) {
-                    final task = controller.tasks[index];
+                    final task = controller.filteredTasks[index];
 
                     return Card(
                       elevation: 3,
