@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import '../../core/routes/app_routes.dart';
 
@@ -7,12 +8,25 @@ class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  var rememberMe = false.obs;
-  var isLoading = false.obs;
+  RxBool rememberMe = false.obs;
+  RxBool isLoading = false.obs;
 
-  // Hardcoded Credentials
-  static const String validEmail = "vayuz@gmail.com";
-  static const String validPassword = "vayuz123"; 
+  final Box loginBox = Hive.box("loginBox");
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadSavedCredentials();
+  }
+
+  void loadSavedCredentials() {
+    rememberMe.value = loginBox.get("rememberMe", defaultValue: false);
+
+    if (rememberMe.value) {
+      emailController.text = loginBox.get("email", defaultValue: "");
+      passwordController.text = loginBox.get("password", defaultValue: "");
+    }
+  }
 
   void toggleRememberMe(bool? value) {
     rememberMe.value = value ?? false;
@@ -22,32 +36,29 @@ class LoginController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email != "vayuz@gmail.com" || password != "vayuz123") {
       Get.snackbar(
-        "Missing Information",
-        "Please enter email and password.",
-        snackPosition: SnackPosition.BOTTOM,
+        "Login Failed",
+        "Invalid Email or Password",
       );
       return;
     }
 
     isLoading.value = true;
 
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (rememberMe.value) {
+      await loginBox.put("rememberMe", true);
+      await loginBox.put("email", email);
+      await loginBox.put("password", password);
+    } else {
+      await loginBox.clear();
+    }
 
     isLoading.value = false;
 
-    if (email == validEmail && password == validPassword) {
-      Get.offAllNamed(AppRoutes.home);
-    } else {
-      Get.snackbar(
-        "Login Failed",
-        "Invalid email or password.",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
+    Get.offAllNamed(AppRoutes.home);
   }
 
   @override
