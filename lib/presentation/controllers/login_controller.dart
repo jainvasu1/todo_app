@@ -35,8 +35,9 @@ class LoginController extends GetxController {
   Future<void> login() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    final savedPassword = loginBox.get("password", defaultValue: "vayuz123");
 
-    if (email != "vayuz@gmail.com" || password != "vayuz123") {
+    if (email != "vayuz@gmail.com" || password != savedPassword) {
       Get.snackbar(
         "Login Failed",
         "Invalid Email or Password",
@@ -53,7 +54,9 @@ class LoginController extends GetxController {
       await loginBox.put("email", email);
       await loginBox.put("password", password);
     } else {
-      await loginBox.clear();
+      await loginBox.put("rememberMe", false);
+      await loginBox.put("email", "");
+      await loginBox.put("password", loginBox.get("password", defaultValue: "vayuz123"));
     }
 
     isLoading.value = false;

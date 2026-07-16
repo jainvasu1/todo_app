@@ -284,7 +284,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               const SizedBox(height: 8),
 
               DropdownButtonFormField<String>(
-                value: status,
+                initialValue: status,
 
                 decoration: InputDecoration(
                   filled: true,

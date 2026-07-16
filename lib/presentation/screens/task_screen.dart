@@ -99,7 +99,7 @@ class TaskScreen extends StatelessWidget {
                     final task = controller.filteredTasks[index];
 
                     return Dismissible(
-                      key: Key(index.toString()),
+                      key: ObjectKey(task),
                       background: Container(
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(left: 20),
@@ -198,15 +198,20 @@ class TaskScreen extends StatelessWidget {
                       },
                       onDismissed: (direction) async {
                         if (direction == DismissDirection.startToEnd) {
-                          await controller.deleteTask(index);
+                          final actualIndex = controller.tasks.indexOf(task);
 
-                          Get.snackbar(
-                            "Deleted",
-                            "Task successfully deleted",
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white,
-                          );
+                          if (actualIndex != -1) {
+                            controller.filteredTasks.removeAt(index);
+                            await controller.deleteTask(actualIndex);
+
+                            Get.snackbar(
+                              "Deleted",
+                              "Task successfully deleted",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                            );
+                          }
                         }
                       },
                       child: Card(

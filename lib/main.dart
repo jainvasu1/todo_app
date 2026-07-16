@@ -16,7 +16,11 @@ Future<void> main() async {
   Hive.registerAdapter(TaskModelAdapter());
 
   await Hive.openBox<TaskModel>("tasks");
-  await Hive.openBox("loginBox");
+  final loginBox = await Hive.openBox("loginBox");
+
+  if (!loginBox.containsKey("password")) {
+    await loginBox.put("password", "vayuz123");
+  }
 
   Get.put(ThemeController());
   Get.put(TaskController());
@@ -39,9 +43,10 @@ class MyApp extends StatelessWidget {
         themeMode: controller.themeMode,
 
         theme: ThemeData(
+          useMaterial3: true,
           brightness: Brightness.light,
-          primarySwatch: Colors.green,
-          scaffoldBackgroundColor: const Color(0xffE8F5E9),
+          colorSchemeSeed: Colors.green,
+          scaffoldBackgroundColor: const Color(0xFFE8F5E9),
         ),
 
         darkTheme: ThemeData(
@@ -50,10 +55,6 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: Colors.green,
           scaffoldBackgroundColor: const Color(0xff121212),
           cardColor: const Color(0xff1E1E1E),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xff1B5E20),
-            foregroundColor: Colors.white,
-          ),
         ),
 
         initialRoute: AppRoutes.splash,

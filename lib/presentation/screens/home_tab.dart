@@ -11,7 +11,7 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
   backgroundColor: Colors.green.shade700,
   elevation: 0,
@@ -42,22 +42,20 @@ class HomeTab extends StatelessWidget {
                 color: Colors.green.shade700,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Welcome 👋",
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.white,
-                      fontSize: 18,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     "TODO APP",
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Colors.white,
-                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -67,10 +65,9 @@ class HomeTab extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            const Text(
+            Text(
               "Quick Overview",
-              style: TextStyle(
-                fontSize: 22,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -82,6 +79,7 @@ class HomeTab extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => _buildCard(
+                      context: context,
                       title: "Today's Tasks",
                       count: controller.todayTasks.toString(),
                       icon: Icons.today,
@@ -93,6 +91,7 @@ class HomeTab extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => _buildCard(
+                      context: context,
                       title: "Completed",
                       count: controller.completedTasks.toString(),
                       icon: Icons.check_circle,
@@ -110,6 +109,7 @@ class HomeTab extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => _buildCard(
+                      context: context,
                       title: "Pending",
                       count: controller.pendingTasks.toString(),
                       icon: Icons.pending_actions,
@@ -121,6 +121,7 @@ class HomeTab extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => _buildCard(
+                      context: context,
                       title: "Future",
                       count: controller.futureTasks.toString(),
                       icon: Icons.calendar_month,
@@ -143,6 +144,7 @@ class HomeTab extends StatelessWidget {
   }
 
   Widget _buildCard({
+    required BuildContext context,
     required String title,
     required String count,
     required IconData icon,
@@ -151,7 +153,7 @@ class HomeTab extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
@@ -169,7 +171,7 @@ class HomeTab extends StatelessWidget {
             backgroundColor: color.withValues(alpha: 0.15),
             child: Icon(
               icon,
-              color: color,
+              color: Colors.green.shade700,
             ),
           ),
 
@@ -177,8 +179,7 @@ class HomeTab extends StatelessWidget {
 
           Text(
             count,
-            style: const TextStyle(
-              fontSize: 28,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -188,9 +189,7 @@ class HomeTab extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
       ),

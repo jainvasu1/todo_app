@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/presentation/widgets/change_password_dialog.dart';
 import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -77,13 +78,18 @@ appBar: AppBar(
 
             const SizedBox(height: 10),
 
-            _profileTile(
-              icon: Icons.lock_outline,
-              title: "Change Password",
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Theme.of(context).iconTheme.color,
+            InkWell(
+              onTap: () {
+                Get.dialog(const ChangePasswordDialog());
+              },
+              child: _profileTile(
+                icon: Icons.lock_outline,
+                title: "Change Password",
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: Theme.of(context).iconTheme.color,
+                ),
               ),
             ),
 
