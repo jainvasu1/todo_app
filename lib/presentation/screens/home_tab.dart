@@ -13,131 +13,121 @@ class HomeTab extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-  backgroundColor: Colors.green.shade700,
-  elevation: 0,
-  centerTitle: true,
-  title: const Text(
-    "TODO Dashboard",
-    style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  actions: const [
-    ThemeToggleButton(),
-  ],
-),
-
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            /// Greeting Card
-            Container(
-              width: double.infinity,
+        backgroundColor: Colors.green.shade700,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          "TODO Dashboard",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: const [
+          ThemeToggleButton(),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.green.shade700,
-                borderRadius: BorderRadius.circular(20),
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Welcome 👋",
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white,
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade700,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome 👋",
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "TODO APP",
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 30),
                   Text(
-                    "TODO APP",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: Colors.white,
+                    "Quick Overview",
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => _buildCard(
+                            context: context,
+                            title: "Today's Tasks",
+                            count: controller.todayTasks.toString(),
+                            icon: Icons.today,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: Obx(
+                          () => _buildCard(
+                            context: context,
+                            title: "Completed",
+                            count: controller.completedTasks.toString(),
+                            icon: Icons.check_circle,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => _buildCard(
+                            context: context,
+                            title: "Pending",
+                            count: controller.pendingTasks.toString(),
+                            icon: Icons.pending_actions,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: Obx(
+                          () => _buildCard(
+                            context: context,
+                            title: "Future",
+                            count: controller.futureTasks.toString(),
+                            icon: Icons.calendar_month,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
                 ],
               ),
-            ),
-
-            const SizedBox(height: 30),
-
-            Text(
-              "Quick Overview",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Obx(
-                    () => _buildCard(
-                      context: context,
-                      title: "Today's Tasks",
-                      count: controller.todayTasks.toString(),
-                      icon: Icons.today,
-                      color: Colors.orange,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: Obx(
-                    () => _buildCard(
-                      context: context,
-                      title: "Completed",
-                      count: controller.completedTasks.toString(),
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Obx(
-                    () => _buildCard(
-                      context: context,
-                      title: "Pending",
-                      count: controller.pendingTasks.toString(),
-                      icon: Icons.pending_actions,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: Obx(
-                    () => _buildCard(
-                      context: context,
-                      title: "Future",
-                      count: controller.futureTasks.toString(),
-                      icon: Icons.calendar_month,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 40),
-
-          
-            const SizedBox(height: 20),
-
-              ],
             ),
           ),
           Padding(
