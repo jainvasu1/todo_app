@@ -150,6 +150,8 @@ class TaskScreen extends StatelessWidget {
                         ),
                       ),
                       confirmDismiss: (direction) async {
+                        FocusManager.instance.primaryFocus?.unfocus();
+
                         if (direction == DismissDirection.startToEnd) {
                           return await Get.dialog(
                             AlertDialog(
@@ -159,14 +161,20 @@ class TaskScreen extends StatelessWidget {
                               ),
                               actions: [
                                 TextButton(
-                                  onPressed: () => Get.back(result: false),
+                                  onPressed: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    Get.back(result: false);
+                                  },
                                   child: const Text("No"),
                                 ),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red,
                                   ),
-                                  onPressed: () => Get.back(result: true),
+                                  onPressed: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    Get.back(result: true);
+                                  },
                                   child: const Text(
                                     "Yes",
                                     style: TextStyle(color: Colors.white),
@@ -176,6 +184,8 @@ class TaskScreen extends StatelessWidget {
                             ),
                           );
                         } else {
+                          FocusManager.instance.primaryFocus?.unfocus();
+
                           Get.to(
                             () => AddTaskScreen(
                               task: task,
