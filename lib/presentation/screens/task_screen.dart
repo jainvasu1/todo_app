@@ -67,12 +67,12 @@ class TaskScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _chip("All", true),
-                  _chip("Today", false),
-                  _chip("Yesterday", false),
-                  _chip("Future", false),
-                  _chip("Completed", false),
-                  _chip("Pending", false),
+                  _chip("All"),
+                  _chip("Today"),
+                  _chip("Yesterday"),
+                  _chip("Future"),
+                  _chip("Completed"),
+                  _chip("Pending"),
                 ],
               ),
             ),
@@ -239,17 +239,23 @@ class TaskScreen extends StatelessWidget {
     );
   }
 
-  Widget _chip(String text, bool selected) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: ChoiceChip(
-        label: Text(text),
-        selected: selected,
-        selectedColor: Colors.green.shade700,
-        labelStyle: TextStyle(
-          color: selected ? Colors.white : Colors.black,
+  Widget _chip(String text) {
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: ChoiceChip(
+          label: Text(text),
+          selected: controller.selectedFilter.value == text,
+          selectedColor: Colors.green.shade700,
+          labelStyle: TextStyle(
+            color: controller.selectedFilter.value == text
+                ? Colors.white
+                : Theme.of(Get.context!).textTheme.bodyMedium!.color,
+          ),
+          onSelected: (_) {
+            controller.filterTasks(text);
+          },
         ),
-        onSelected: (_) {},
       ),
     );
   }

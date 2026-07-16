@@ -9,6 +9,7 @@ class TaskController extends GetxController {
   RxList<TaskModel> tasks = <TaskModel>[].obs;
 
   RxList<TaskModel> filteredTasks = <TaskModel>[].obs;
+  RxString selectedFilter = "All".obs;
 
   @override
   void onInit() {
@@ -18,8 +19,42 @@ class TaskController extends GetxController {
 
   void loadTasks() {
     tasks.assignAll(repository.getTasks());
+    filterTasks(selectedFilter.value);
+  }
 
-    filteredTasks.assignAll(tasks);
+  void filterTasks(String filter) {
+    selectedFilter.value = filter;
+
+    switch (filter) {
+      case "All":
+        filteredTasks.assignAll(tasks);
+        break;
+      case "Today":
+        filteredTasks.assignAll(
+          tasks.where((e) => e.category == "Today").toList(),
+        );
+        break;
+      case "Yesterday":
+        filteredTasks.assignAll(
+          tasks.where((e) => e.category == "Yesterday").toList(),
+        );
+        break;
+      case "Future":
+        filteredTasks.assignAll(
+          tasks.where((e) => e.category == "Future").toList(),
+        );
+        break;
+      case "Completed":
+        filteredTasks.assignAll(
+          tasks.where((e) => e.status == "Completed").toList(),
+        );
+        break;
+      case "Pending":
+        filteredTasks.assignAll(
+          tasks.where((e) => e.status == "Pending").toList(),
+        );
+        break;
+    }
   }
 
   Future<void> addTask(TaskModel task) async {
@@ -39,16 +74,14 @@ class TaskController extends GetxController {
 
   void searchTask(String keyword) {
     if (keyword.trim().isEmpty) {
-      filteredTasks.assignAll(tasks);
+      filterTasks(selectedFilter.value);
       return;
     }
 
-    filteredTasks.assignAll(
-      tasks.where(
-        (task) => task.title
-            .toLowerCase()
-            .contains(keyword.toLowerCase()),
-      ),
+    final filtered = tasks.where(
+      (task) => task.title.toLowerCase().contains(keyword.toLowerCase()),
     );
+
+    filteredTasks.assignAll(filtered.toList());
   }
 }
