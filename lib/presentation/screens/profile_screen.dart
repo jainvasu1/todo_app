@@ -120,6 +120,15 @@ appBar: AppBar(
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            Text(
+              'Made by Vasudha Jain ❤️',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
           ],
         ),
       ),

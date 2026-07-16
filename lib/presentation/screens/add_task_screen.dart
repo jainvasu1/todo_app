@@ -311,6 +311,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
 
               const SizedBox(height: 35),
+              Center(
+                child: Text(
+                  'Made by Vasudha Jain ❤️',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 55,

@@ -238,6 +238,17 @@ class TaskScreen extends StatelessWidget {
                 );
               }),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 4),
+              child: Text(
+                'Made by Vasudha Jain ❤️',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade600,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -137,8 +137,21 @@ class HomeTab extends StatelessWidget {
           
             const SizedBox(height: 20),
 
-          ],
-        ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12, top: 4),
+            child: Text(
+              'Made by Vasudha Jain ❤️',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade600,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
