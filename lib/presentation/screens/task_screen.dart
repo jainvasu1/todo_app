@@ -98,72 +98,124 @@ class TaskScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final task = controller.filteredTasks[index];
 
-                    return Card(
-                      elevation: 3,
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.green.shade100,
-                          child: const Icon(
-                            Icons.task_alt,
-                            color: Colors.green,
-                          ),
+                    return Dismissible(
+                      key: Key(index.toString()),
+                      background: Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(left: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        title: Text(
-                          task.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
+                        child: const Row(
                           children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.blue,
-                              ),
-                              onPressed: () {
-                                Get.to(
-                                  () => AddTaskScreen(
-                                    task: task,
-                                    index: index,
-                                  ),
-                                );
-                              },
+                            Icon(
+                              Icons.delete,
+                              color: Colors.white,
                             ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                            SizedBox(width: 8),
+                            Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onPressed: () {
-                                Get.defaultDialog(
-                                  title: "Delete Task",
-                                  middleText:
-                                      "Are you sure you want to delete this task?",
-                                  textConfirm: "Yes",
-                                  textCancel: "No",
-                                  confirmTextColor: Colors.white,
-                                  buttonColor: Colors.red,
-                                  onConfirm: () async {
-                                    await controller.deleteTask(index);
-
-                                    Get.back();
-
-                                    Get.snackbar(
-                                      "Deleted",
-                                      "Task successfully deleted",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white,
-                                      duration: const Duration(seconds: 2),
-                                    );
-                                  },
-                                );
-                              },
                             ),
                           ],
+                        ),
+                      ),
+                      secondaryBackground: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Edit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          return await Get.dialog(
+                            AlertDialog(
+                              title: const Text("Delete Task"),
+                              content: const Text(
+                                "Are you sure you want to delete this task?",
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Get.back(result: false),
+                                  child: const Text("No"),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                  ),
+                                  onPressed: () => Get.back(result: true),
+                                  child: const Text(
+                                    "Yes",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          Get.to(
+                            () => AddTaskScreen(
+                              task: task,
+                              index: index,
+                            ),
+                          );
+
+                          return false;
+                        }
+                      },
+                      onDismissed: (direction) async {
+                        if (direction == DismissDirection.startToEnd) {
+                          await controller.deleteTask(index);
+
+                          Get.snackbar(
+                            "Deleted",
+                            "Task successfully deleted",
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                        }
+                      },
+                      child: Card(
+                        elevation: 3,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.green.shade100,
+                            child: const Icon(
+                              Icons.task_alt,
+                              color: Colors.green,
+                            ),
+                          ),
+                          title: Text(
+                            task.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                     );
