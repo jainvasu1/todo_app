@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../data/models/task_model.dart';
+import '../controllers/task_controller.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
+  
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
+  State<AddTaskScreen> createState() => _AddTaskScreenState(
+    
+  );
+  
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
+
+  final TaskController controller = Get.find<TaskController>();
+
   final TextEditingController titleController = TextEditingController();
+
   final TextEditingController descriptionController =
       TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey =
+      GlobalKey<FormState>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -300,18 +313,27 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Task Added Successfully"),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
+                  onPressed: () async {
+  if (_formKey.currentState!.validate()) {
+    final task = TaskModel(
+      title: titleController.text.trim(),
+      description: descriptionController.text.trim(),
+      date: selectedDate,
+      category: category,
+      status: status,
+    );
 
-                      Navigator.pop(context);
-                    }
-                  },
+    await controller.addTask(task);
+
+    Get.back();
+
+    Get.snackbar(
+      "Success",
+      "Task Added Successfully",
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+},
                   child: const Text(
                     "SAVE TASK",
                     style: TextStyle(

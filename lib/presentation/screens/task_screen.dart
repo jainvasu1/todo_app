@@ -1,58 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/presentation/screens/add_task_screen.dart';
-import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
+import 'package:get/get.dart';
+
+import '../controllers/task_controller.dart';
+import 'add_task_screen.dart';
+import '../widgets/toggle_theme_button.dart';
 
 class TaskScreen extends StatelessWidget {
-  const TaskScreen({super.key});
+  TaskScreen({super.key});
+
+  final TaskController controller = Get.find<TaskController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-     appBar: AppBar(
-  backgroundColor: Colors.green.shade700,
-  elevation: 0,
-  centerTitle: true,
-  title: const Text(
-    "My Tasks",
-    style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-    ),
-  ),
-  actions: const [
-    ThemeToggleButton(),
-  ],
-),
-   floatingActionButton: FloatingActionButton(
-  backgroundColor: Colors.green.shade700,
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const AddTaskScreen(),
+      appBar: AppBar(
+        backgroundColor: Colors.green.shade700,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          "My Tasks",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: const [
+          ThemeToggleButton(),
+        ],
       ),
-    );
-  },
-  child: const Icon(
-    Icons.add,
-    color: Colors.white,
-  ),
-),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green.shade700,
+        onPressed: () {
+          Get.to(() => const AddTaskScreen());
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-
-            /// Search Bar
             TextField(
               decoration: InputDecoration(
                 hintText: "Search task...",
                 prefixIcon: const Icon(Icons.search),
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Theme.of(context).cardColor,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: BorderSide.none,
@@ -62,63 +61,64 @@ class TaskScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            /// Filter Chips
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-
                   _chip("All", true),
-
                   _chip("Today", false),
-
                   _chip("Yesterday", false),
-
                   _chip("Future", false),
-
                   _chip("Completed", false),
-
                   _chip("Pending", false),
                 ],
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: 20),
 
             Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                    Icon(
-                      Icons.task_alt,
-                      size: 100,
-                      color: Colors.green.shade300,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    const Text(
+              child: Obx(() {
+                if (controller.tasks.isEmpty) {
+                  return const Center(
+                    child: Text(
                       "No Tasks Yet",
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                  );
+                }
 
-                    const SizedBox(height: 8),
+                return ListView.builder(
+                  itemCount: controller.tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = controller.tasks[index];
 
-                    const Text(
-                      "Tap the + button to add your first task.",
-                      style: TextStyle(
-                        color: Colors.grey,
+                    return Card(
+                      elevation: 3,
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.green.shade100,
+                          child: const Icon(
+                            Icons.task_alt,
+                            color: Colors.green,
+                          ),
+                        ),
+                        title: Text(
+                          task.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+                    );
+                  },
+                );
+              }),
+            ),
           ],
         ),
       ),
