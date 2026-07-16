@@ -1,27 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/bottom_nav_controller.dart';
+import 'home_tab.dart';
+import 'profile_screen.dart';
+import 'task_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final BottomNavController controller =
+      Get.put(BottomNavController());
+
+  final List<Widget> pages = const [
+    HomeTab(),
+    TaskScreen(),
+    ProfileScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9),
-      appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        title: const Text(
-          "TODO Home",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          "Welcome to TODO App 🎉",
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
+    return Obx(
+      () => Scaffold(
+        body: pages[controller.selectedIndex.value],
+
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: controller.selectedIndex.value,
+
+          onTap: controller.changeIndex,
+
+          type: BottomNavigationBarType.fixed,
+
+          selectedItemColor: Colors.green.shade700,
+          unselectedItemColor: Colors.grey,
+
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_rounded),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sticky_note_2_rounded),
+              label: "Tasks",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_rounded),
+              label: "Profile",
+            ),
+          ],
         ),
       ),
     );
