@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -8,17 +9,20 @@ class HomeTab extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
       appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        elevation: 0,
-        title: const Text(
-          "TODO Dashboard",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
+  backgroundColor: Colors.green.shade700,
+  elevation: 0,
+  centerTitle: true,
+  title: const Text(
+    "TODO Dashboard",
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  actions: const [
+    ThemeToggleButton(),
+  ],
+),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -40,13 +44,13 @@ class HomeTab extends StatelessWidget {
                   Text(
                     "Welcome 👋",
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Manage Your Tasks Efficiently",
+                    "TODO APP",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -123,25 +127,9 @@ class HomeTab extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            Center(
-              child: Icon(
-                Icons.task_alt_rounded,
-                size: 120,
-                color: Colors.green.shade200,
-              ),
-            ),
-
+          
             const SizedBox(height: 20),
 
-            const Center(
-              child: Text(
-                "Your tasks will appear in the Tasks tab.",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
           ],
         ),
       ),

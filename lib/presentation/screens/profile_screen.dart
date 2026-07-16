@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -9,18 +10,21 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
 
-      appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        centerTitle: true,
-        elevation: 0,
-        title: const Text(
-          "Profile",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+appBar: AppBar(
+  backgroundColor: Colors.green.shade700,
+  elevation: 0,
+  centerTitle: true,
+  title: const Text(
+    "Profile",
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  actions: const [
+    ThemeToggleButton(),
+  ],
+),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -61,17 +65,6 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 35),
 
-            _profileTile(
-              icon: Icons.dark_mode,
-              title: "Dark Mode",
-              trailing: Switch(
-                value: false,
-                onChanged: (value) {
-                  // Theme Toggle (Later)
-                },
-                activeColor: Colors.green,
-              ),
-            ),
 
             const SizedBox(height: 10),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
@@ -8,19 +9,21 @@ class TaskScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFE8F5E9),
 
-      appBar: AppBar(
-        backgroundColor: Colors.green.shade700,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          "My Tasks",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-
+     appBar: AppBar(
+  backgroundColor: Colors.green.shade700,
+  elevation: 0,
+  centerTitle: true,
+  title: const Text(
+    "My Tasks",
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  actions: const [
+    ThemeToggleButton(),
+  ],
+),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green.shade700,
         onPressed: () {
