@@ -8,7 +8,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE8F5E9),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
 appBar: AppBar(
   backgroundColor: Colors.green.shade700,
@@ -45,21 +45,19 @@ appBar: AppBar(
 
             const SizedBox(height: 15),
 
-            const Text(
+            Text(
               "VAYUZ USER",
-              style: TextStyle(
-                fontSize: 24,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
 
             const SizedBox(height: 5),
 
-            const Text(
+            Text(
               "vayuz@gmail.com",
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Colors.grey,
-                fontSize: 16,
               ),
             ),
 
@@ -71,7 +69,10 @@ appBar: AppBar(
             _profileTile(
               icon: Icons.info_outline,
               title: "App Version",
-              trailing: const Text("1.0.0"),
+              trailing: Text(
+                "1.0.0",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
 
             const SizedBox(height: 10),
@@ -79,7 +80,11 @@ appBar: AppBar(
             _profileTile(
               icon: Icons.lock_outline,
               title: "Change Password",
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
 
             const SizedBox(height: 40),
@@ -89,7 +94,7 @@ appBar: AppBar(
               height: 55,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade400,
+                  backgroundColor: Colors.red.shade600,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -121,6 +126,7 @@ appBar: AppBar(
     required Widget trailing,
   }) {
     return Card(
+      color: Theme.of(Get.context!).cardColor,
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -133,7 +139,10 @@ appBar: AppBar(
             color: Colors.green.shade700,
           ),
         ),
-        title: Text(title),
+        title: Text(
+          title,
+          style: Theme.of(Get.context!).textTheme.titleMedium,
+        ),
         trailing: trailing,
       ),
     );
