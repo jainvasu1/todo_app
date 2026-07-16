@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/screens/add_task_screen.dart';
 import 'package:todo_app/presentation/widgets/toggle_theme_button.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -24,16 +25,21 @@ class TaskScreen extends StatelessWidget {
     ThemeToggleButton(),
   ],
 ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green.shade700,
-        onPressed: () {
-          // Add Task Screen
-        },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+   floatingActionButton: FloatingActionButton(
+  backgroundColor: Colors.green.shade700,
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const AddTaskScreen(),
       ),
+    );
+  },
+  child: const Icon(
+    Icons.add,
+    color: Colors.white,
+  ),
+),
 
       body: Padding(
         padding: const EdgeInsets.all(16),
