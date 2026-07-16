@@ -113,6 +113,56 @@ class TaskScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                              onPressed: () {
+                                Get.to(
+                                  () => AddTaskScreen(
+                                    task: task,
+                                    index: index,
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                Get.defaultDialog(
+                                  title: "Delete Task",
+                                  middleText:
+                                      "Are you sure you want to delete this task?",
+                                  textConfirm: "Yes",
+                                  textCancel: "No",
+                                  confirmTextColor: Colors.white,
+                                  buttonColor: Colors.red,
+                                  onConfirm: () async {
+                                    await controller.deleteTask(index);
+
+                                    Get.back();
+
+                                    Get.snackbar(
+                                      "Deleted",
+                                      "Task successfully deleted",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red,
+                                      colorText: Colors.white,
+                                      duration: const Duration(seconds: 2),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

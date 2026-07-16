@@ -23,13 +23,17 @@ class TaskController extends GetxController {
     loadTasks();
   }
 
+  Future<void> updateTask(int index, TaskModel task) async {
+    await repository.updateTask(index, task);
+    loadTasks();
+  }
+
   Future<void> deleteTask(int index) async {
     await repository.deleteTask(index);
     loadTasks();
   }
 
-  Future<void> updateTask(int index, TaskModel task) async {
-    await repository.updateTask(index, task);
-    loadTasks();
+  TaskModel getTask(int index) {
+    return tasks[index];
   }
 }

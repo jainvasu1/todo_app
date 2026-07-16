@@ -6,27 +6,26 @@ import '../../data/models/task_model.dart';
 import '../controllers/task_controller.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
-  
+  const AddTaskScreen({
+    super.key,
+    this.task,
+    this.index,
+  });
+
+  final TaskModel? task;
+  final int? index;
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState(
-    
-  );
-  
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-
   final TaskController controller = Get.find<TaskController>();
 
-  final TextEditingController titleController = TextEditingController();
+  late final TextEditingController titleController;
+  late final TextEditingController descriptionController;
 
-  final TextEditingController descriptionController =
-      TextEditingController();
-
-  final GlobalKey<FormState> _formKey =
-      GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DateTime selectedDate = DateTime.now();
 
@@ -42,6 +41,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     super.initState();
+
+    titleController = TextEditingController(text: widget.task?.title);
+    descriptionController =
+        TextEditingController(text: widget.task?.description);
+
+    selectedDate = widget.task?.date ?? DateTime.now();
+    category = widget.task?.category ?? "Today";
+    status = widget.task?.status ?? "Pending";
+
     updateCategory();
   }
 
@@ -107,9 +115,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         backgroundColor: Colors.green.shade700,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          "Add Task",
-          style: TextStyle(
+        title: Text(
+          widget.task == null ? "Add Task" : "Edit Task",
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -314,29 +322,37 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ),
                   ),
                   onPressed: () async {
-  if (_formKey.currentState!.validate()) {
-    final task = TaskModel(
-      title: titleController.text.trim(),
-      description: descriptionController.text.trim(),
-      date: selectedDate,
-      category: category,
-      status: status,
-    );
+                    if (_formKey.currentState!.validate()) {
+                      final task = TaskModel(
+                        title: titleController.text.trim(),
+                        description: descriptionController.text.trim(),
+                        date: selectedDate,
+                        category: category,
+                        status: status,
+                      );
 
-    await controller.addTask(task);
-
-    Get.back();
-
-    Get.snackbar(
-      "Success",
-      "Task Added Successfully",
-      snackPosition: SnackPosition.BOTTOM,
-    );
-  }
-},
-                  child: const Text(
-                    "SAVE TASK",
-                    style: TextStyle(
+                      if (widget.task != null && widget.index != null) {
+                        await controller.updateTask(widget.index!, task);
+                        Get.back();
+                        Get.snackbar(
+                          "Updated",
+                          "Task updated successfully",
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      } else {
+                        await controller.addTask(task);
+                        Get.back();
+                        Get.snackbar(
+                          "Success",
+                          "Task added successfully",
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
+                    }
+                  },
+                  child: Text(
+                    widget.task == null ? "SAVE TASK" : "UPDATE TASK",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
